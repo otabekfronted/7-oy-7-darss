@@ -20,6 +20,8 @@ const cartReducer = (state = defaultState, action) => {
                 value.id === action.payload.id ? action.payload : value
             ),
         };
+    } else if (action.type == "CLEAR_CART") {
+        return { ...state, cart: [] };
     } else {
         return state;
     }

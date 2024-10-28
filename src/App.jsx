@@ -5,6 +5,7 @@ import NewUserForma from "./components/NewUserForma";
 import { useDispatch, useSelector } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
+import { MdOutlineClear } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 
 function App() {
@@ -13,6 +14,12 @@ function App() {
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [hasLoaded, setHasLoaded] = useState(false);
+
+    useEffect(() => {
+        if (localStorage.getItem("theme")) {
+            dispatch({ type: localStorage.getItem("theme").toUpperCase() });
+        }
+    }, []);
 
     useEffect(() => {
         if (!hasLoaded) {
@@ -50,6 +57,10 @@ function App() {
     function handleUpdateCart(user) {
         setSelectedUser(user);
         setShowModal(true);
+    }
+    function clearCart() {
+        dispatch({ type: "CLEAR_CART" });
+        toast.success("All cards cleared successfully!");
     }
 
     return (
@@ -129,9 +140,15 @@ function App() {
 
             <button
                 onClick={() => setShowModal(true)}
-                className="-rotate-90 font-bold font-sans text-[17px] fixed top-1/2 -left-[46px] bg-blue-500 text-white py-3 px-6 rounded shadow-lg hover:bg-blue-600 transition-all duration-300"
+                className="-rotate-90 font-bold font-sans text-[17px] fixed top-1/2 -left-[46px] bg-blue-500 text-white py-3 px-6 rounded-r-lg shadow-lg hover:bg-blue-600 transition-all duration-300"
             >
                 Create Card
+            </button>
+            <button
+                onClick={() => clearCart()}
+                className="-rotate-90 font-bold font-sans text-[26px] fixed top-[440px] -left-[12px] bg-red-500 text-white py-3 px-6 rounded-l-lg shadow-lg hover:bg-red-600 transition-all duration-300"
+            >
+                <MdOutlineClear />
             </button>
         </div>
     );
